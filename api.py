@@ -20,3 +20,12 @@ def getImage(size, coords, z_scale, map_type, mark=None):
         file.write(response.content)
 
     return map_file
+
+
+def findObject(text):
+    geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={text}&format=json"
+    response = requests.get(geocoder_request)
+    json_response = response.json()
+    toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+    toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
+    return toponym_coodrinates, toponym_coodrinates
