@@ -32,18 +32,11 @@ class MainWindow(QMainWindow):
     def findObject(self):
         try:
             text = self.Addressinp.text()
-            geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={text}&format=json"
-            response = requests.get(geocoder_request)
-            json_response = response.json()
-            toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
-            self.Addressl.setText(
-                'Address: ' + toponym['metaDataProperty']['GeocoderMetaData']['text'])
-            toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
-            self.coords = toponym_coodrinates
-            self.pt_coords = toponym_coodrinates
+            self.coords, self.pt_coords, address_text = api.findObject(text)
+            self.Addressl.setText('Address: ' + address_text)
             self.Update()
         except IndexError:
-            self.statusBar().showMessage('Не удаётся найти объект')
+            self.statusBar().showMessage('Неудаётся найти объект')
 
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
@@ -78,7 +71,6 @@ class MainWindow(QMainWindow):
         # moving
         coords = list(map(float, self.coords.split(',')))
         value = 1 / self.z_scale ** 2
-        print(value, self.z_scale)
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
             coords[1] += value
         if event.key() in [Qt.Key_Left, Qt.Key_A]:
