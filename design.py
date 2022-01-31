@@ -36,6 +36,8 @@ class MainWindow(QMainWindow):
             response = requests.get(geocoder_request)
             json_response = response.json()
             toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+            self.Addressl.setText(
+                'Address: ' + toponym['metaDataProperty']['GeocoderMetaData']['text'])
             toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
             self.coords = toponym_coodrinates
             self.pt_coords = toponym_coodrinates
@@ -91,7 +93,8 @@ class MainWindow(QMainWindow):
 
     def reset_address(self):
         self.pt_coords = None
-        self.Addressl.text = 'Address:'
+        self.Addressl.setText('Address:')
+        self.Update()
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
