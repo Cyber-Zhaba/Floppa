@@ -30,16 +30,18 @@ class MainWindow(QMainWindow):
         self.Finder.clicked.connect(self.findObject)
 
     def findObject(self):
-        text = self.Addressinp.text()
-        print(text)
-        geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={text}&format=json"
-        response = requests.get(geocoder_request)
-        json_response = response.json()
-        toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
-        toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
-        self.coords = toponym_coodrinates
-        self.pt_coords = toponym_coodrinates
-        self.Update()
+        try:
+            text = self.Addressinp.text()
+            geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={text}&format=json"
+            response = requests.get(geocoder_request)
+            json_response = response.json()
+            toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+            toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
+            self.coords = toponym_coodrinates
+            self.pt_coords = toponym_coodrinates
+            self.Update()
+        except IndexError:
+            self.statusBar().showMessage('Неудаётся найти объект')
 
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
@@ -60,6 +62,8 @@ class MainWindow(QMainWindow):
         self.Zooml.setText(f'Zoom: {int(self.z_scale / 9 * 100)}%')
         self.Coordsl.setText(f'Coords: {self.coords}')
 
+        self.statusBar().showMessage('')
+
     def keyPressEvent(self, event):
         # zoom
         if event.key() == QtCore.Qt.Key_PageUp:
@@ -71,7 +75,8 @@ class MainWindow(QMainWindow):
 
         # moving
         coords = list(map(float, self.coords.split(',')))
-        value = 0.06 / (self.z_scale / 17)
+        value = 1 / self.z_scale ** 2
+        print(value, self.z_scale)
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
             coords[1] += value
         if event.key() in [Qt.Key_Left, Qt.Key_A]:
