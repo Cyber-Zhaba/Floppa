@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 from PyQt5.QtGui import QPixmap
 
 
-class Example(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("design.ui", self)
@@ -15,20 +15,15 @@ class Example(QMainWindow):
         self.image = None
         self.coords = '37.530887,55.703118'
         self.setWindowTitle('Map api')
+        self.image_name = None
         self.initUI()
 
     def initUI(self):
         size = f'{self.map.size().width()},{self.map.size().height()}'
-        self.pixmap = QPixmap(api.getImage(size, self.coords))
+        self.image_name = api.getImage(size, self.coords)
+        self.pixmap = QPixmap(self.image_name)
         self.map.setPixmap(self.pixmap)
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
-        os.remove(self.map_file)
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    ex.show()
-    sys.exit(app.exec())
+        os.remove(self.image_name)
