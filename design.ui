@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>668</width>
-    <height>524</height>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="1">
+    <item row="3" column="1">
      <widget class="QWidget" name="Downpanel" native="true">
       <property name="enabled">
        <bool>true</bool>
@@ -23,13 +23,13 @@
       <property name="minimumSize">
        <size>
         <width>500</width>
-        <height>50</height>
+        <height>45</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>50</height>
+        <height>45</height>
        </size>
       </property>
       <property name="contextMenuPolicy">
@@ -41,13 +41,13 @@
          <property name="minimumSize">
           <size>
            <width>80</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>80</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
@@ -87,7 +87,13 @@
          <property name="minimumSize">
           <size>
            <width>150</width>
-           <height>30</height>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="mouseTracking">
@@ -146,7 +152,7 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="1" column="1">
      <widget class="QLabel" name="map">
       <property name="minimumSize">
        <size>
@@ -165,6 +171,93 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QWidget" name="horizontalWidget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>650</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>35</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="Finder">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Finder</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="Adressinp">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Backb">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Reset</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="Adressl">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Adress:</string>
       </property>
      </widget>
     </item>
