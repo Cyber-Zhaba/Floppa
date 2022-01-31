@@ -1,5 +1,6 @@
 import os
 import api
+import requests
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -26,6 +27,19 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.Update()
         self.Backb.clicked.connect(self.reset_address)
+        self.Finder.clicked.connect(self.findObject)
+
+    def findObject(self):
+        text = self.Addressinp.text()
+        print(text)
+        geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={text}&format=json"
+        response = requests.get(geocoder_request)
+        json_response = response.json()
+        toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+        toponym_coodrinates = toponym["Point"]["pos"].replace(' ', ',')
+        self.coords = toponym_coodrinates
+        self.pt_coords = toponym_coodrinates
+        self.Update()
 
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()

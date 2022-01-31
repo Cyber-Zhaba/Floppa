@@ -6,7 +6,7 @@ def getImage(size, coords, z_scale, map_type, mark=None):
     if mark is None:
         map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&l={map_type}&size={size}&z={z_scale}"
     else:
-        map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&l={map_type}&size={size}&z={z_scale}&pt={mark}"
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&l={map_type}&size={size}&z={z_scale}&pt={mark},comma"
     response = requests.get(map_request)
 
     if not response:
