@@ -25,14 +25,6 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.Update()
 
-    def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_PageUp:
-            self.z_scale = min(17, self.z_scale + 1)
-        if event.key() == QtCore.Qt.Key_PageDown:
-            self.z_scale -= min(1, self.z_scale - 1)
-
-        self.Update()
-
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
         if self.map_type == 'Satellite':
@@ -52,6 +44,15 @@ class MainWindow(QMainWindow):
         self.Coordsl.setText(f'Coords: {self.coords}')
 
     def keyPressEvent(self, event):
+        # zoom
+        if event.key() == QtCore.Qt.Key_PageUp:
+            self.z_scale = min(17, self.z_scale + 1)
+        if event.key() == QtCore.Qt.Key_PageDown:
+            self.z_scale -= min(1, self.z_scale - 1)
+
+        self.Update()
+
+        # moving
         coords = list(map(float, self.coords.split(',')))
         value = 0.02
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
