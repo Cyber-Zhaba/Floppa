@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
         self.pixmap = QPixmap(self.image_name)
         self.map.setPixmap(self.pixmap)
         self.laymap.currentIndexChanged.connect(self.TypeMapChanger)
-        self.Zooml.setText(f'Zoom: {str(self.z_scale / 9 * 100)[:3]}%')
+        self.Zooml.setText(f'Zoom: {int(self.z_scale / 9 * 100)}%')
         self.Coordsl.setText(f'Coords: {self.coords}')
 
     def keyPressEvent(self, event):
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
 
         # moving
         coords = list(map(float, self.coords.split(',')))
-        value = 0.02
+        value = 0.06 / (self.z_scale / 17)
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
             coords[1] += value
         if event.key() in [Qt.Key_Left, Qt.Key_A]:
