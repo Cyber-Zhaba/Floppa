@@ -20,10 +20,12 @@ class MainWindow(QMainWindow):
         self.image_name = None
         self.size_map = f'{self.map.size().width()},{self.map.size().height()}'
         self.z_scale = 9
+        self.pt_coords = None
         self.initUI()
 
     def initUI(self):
         self.Update()
+        self.Backb.clicked.connect(self.reset_address)
 
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
@@ -36,7 +38,8 @@ class MainWindow(QMainWindow):
         self.Update()
 
     def Update(self):
-        self.image_name = api.getImage(self.size_map, self.coords, self.z_scale, self.map_type)
+        self.image_name = api.getImage(self.size_map, self.coords, self.z_scale, self.map_type,
+                                       self.pt_coords)
         self.pixmap = QPixmap(self.image_name)
         self.map.setPixmap(self.pixmap)
         self.laymap.currentIndexChanged.connect(self.TypeMapChanger)
@@ -66,6 +69,10 @@ class MainWindow(QMainWindow):
 
         self.coords = f'{str(coords[0])[:6]},{str(coords[1])[:6]}'
         self.Update()
+
+    def reset_address(self):
+        self.pt_coords = None
+        self.Addressl.text = 'Address:'
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
