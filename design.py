@@ -5,6 +5,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPixmap
+from PyQt5 import QtCore
 
 
 class MainWindow(QMainWindow):
@@ -24,6 +25,14 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.Update()
 
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key_PageUp:
+            self.z_scale = min(17, self.z_scale + 1)
+        if event.key() == QtCore.Qt.Key_PageDown:
+            self.z_scale -= min(1, self.z_scale - 1)
+
+        self.Update()
+
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
         if self.map_type == 'Satellite':
@@ -35,11 +44,11 @@ class MainWindow(QMainWindow):
         self.Update()
 
     def Update(self):
-        self.image_name = api.getImage(self.size_map, self.coords, 9, self.map_type)
+        self.image_name = api.getImage(self.size_map, self.coords, self.z_scale, self.map_type)
         self.pixmap = QPixmap(self.image_name)
         self.map.setPixmap(self.pixmap)
         self.laymap.currentIndexChanged.connect(self.TypeMapChanger)
-        self.Zooml.setText(f'Zoom: {self.z_scale / 9 * 100}%')
+        self.Zooml.setText(f'Zoom: {str(self.z_scale / 9 * 100)[:3]}%')
         self.Coordsl.setText(f'Coords: {self.coords}')
 
     def keyPressEvent(self, event):
