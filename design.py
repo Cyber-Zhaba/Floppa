@@ -2,6 +2,7 @@ import os
 import api
 
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPixmap
 
@@ -40,6 +41,21 @@ class MainWindow(QMainWindow):
         self.laymap.currentIndexChanged.connect(self.TypeMapChanger)
         self.Zooml.setText(f'Zoom: {self.z_scale / 9 * 100}%')
         self.Coordsl.setText(f'Coords: {self.coords}')
+
+    def keyPressEvent(self, event):
+        coords = list(map(float, self.coords.split(',')))
+        value = 0.02
+        if event.key() in [Qt.Key_Up, Qt.Key_W]:
+            coords[1] += value
+        if event.key() in [Qt.Key_Left, Qt.Key_A]:
+            coords[0] -= value
+        if event.key() in [Qt.Key_Down, Qt.Key_S]:
+            coords[1] -= value
+        if event.key() in [Qt.Key_Right, Qt.Key_D]:
+            coords[0] += value
+
+        self.coords = f'{str(coords[0])[:6]},{str(coords[1])[:6]}'
+        self.Update()
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
