@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
             self.pt_coords = toponym_coodrinates
             self.Update()
         except IndexError:
-            self.statusBar().showMessage('Неудаётся найти объект')
+            self.statusBar().showMessage('Не удаётся найти объект')
 
     def TypeMapChanger(self):
         self.map_type = self.laymap.currentText()
@@ -78,7 +78,6 @@ class MainWindow(QMainWindow):
         # moving
         coords = list(map(float, self.coords.split(',')))
         value = 1 / self.z_scale ** 2
-        print(value, self.z_scale)
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
             coords[1] += value
         if event.key() in [Qt.Key_Left, Qt.Key_A]:
