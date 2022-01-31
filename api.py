@@ -2,8 +2,11 @@ import requests
 import sys
 
 
-def getImage(size, coords):
-    map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&spn=0.002,0.002&l=map&size={size}"
+def getImage(size, coords, z_scale, map_type, mark=None):
+    if mark is None:
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&l={map_type}&size={size}&z={z_scale}"
+    else:
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords}&l={map_type}&size={size}&z={z_scale}&pt={mark}"
     response = requests.get(map_request)
 
     if not response:
