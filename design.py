@@ -1,6 +1,5 @@
 import os
 import api
-import requests
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -22,18 +21,33 @@ class MainWindow(QMainWindow):
         self.size_map = f'{self.map.size().width()},{self.map.size().height()}'
         self.z_scale = 9
         self.pt_coords = None
+        self.address_text = None
         self.initUI()
 
     def initUI(self):
         self.Update()
         self.Backb.clicked.connect(self.reset_address)
         self.Finder.clicked.connect(self.findObject)
+        self.Postindex.stateChanged.connect(self.PostShow)
+
+    def PostShow(self):
+        if self.Postindex.checkState() == 2:
+            if api.GetPostIndex(self.Addressinp.text()) is not None:
+                self.Addressl.setText(f'{self.Addressl.text()}; {api.GetPostIndex(self.Addressinp.text())}')
+        else:
+            self.Addressl.setText(self.Addressl.text().split(';')[0])
 
     def findObject(self):
         try:
             text = self.Addressinp.text()
-            self.coords, self.pt_coords, address_text = api.findObject(text)
-            self.Addressl.setText('Address: ' + address_text)
+            self.coords, self.pt_coords, self.address_text = api.findObject(text)
+            if self.Postindex.checkState() == 2:
+                if api.GetPostIndex(self.Addressinp.text()) is not None:
+                    self.Addressl.setText(f'Address: {self.address_text}; {api.GetPostIndex(self.Addressinp.text())}')
+                else:
+                    self.Addressl.setText('Address: ' + self.address_text)
+            else:
+                self.Addressl.setText('Address: ' + self.address_text)
             self.Update()
         except IndexError:
             self.statusBar().showMessage('Неудаётся найти объект')
