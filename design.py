@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.map_type = 'map'
         self.image_name = None
         self.size_map = f'{self.map.size().width()},{self.map.size().height()}'
-        self.z_scale = 9
+        self.z_scale = 17
         self.initUI()
 
     def initUI(self):
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
 
         # moving
         coords = list(map(float, self.coords.split(',')))
-        value = 0.06 / (self.z_scale / 17)
+        value = 0.1
         if event.key() in [Qt.Key_Up, Qt.Key_W]:
             coords[1] += value
         if event.key() in [Qt.Key_Left, Qt.Key_A]:
